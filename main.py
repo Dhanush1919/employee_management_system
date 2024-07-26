@@ -45,6 +45,11 @@ def main():
              position = input('Enter the position of employee : ')
              ### project = input('Enter the project of employee : ')
              add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position)
+        
+        elif(option==2):
+            name = input('Enter the name of the employee to view their details : ')
+            view_employee_details(name)
+
 
 
 if __name__ == "__main__":

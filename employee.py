@@ -16,19 +16,28 @@ def insert_students_from_df(df):
 def test():
     print("Testing")
 
-# Function to add a new student with constraints
 def add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position):
-    # Check if name and fathers_name contain special characters or numbers
     cursor = conn.cursor()
 
-    # Insert SQL query
     sql = "INSERT INTO employee_details (name,age,address,mobile_number,gender,education_details,doj,department,position) VALUES (%s, %s, %s, %s, %s, %s, %s,%s,%s)"
     values = (name,age,address,mobile_number,gender,education_details,doj,department,position)
 
-    # Execute SQL query
     cursor.execute(sql, values)
     conn.commit()
 
     print("Employee detail added")
+
+def view_employee_details(name):
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM employee_details WHERE name = %s,"(name))
+    employee_details = cursor.fetchone()
+
+    if employee_details:
+        print("Employee Details :")
+        for column, value in zip(cursor.column_names, employee_details):
+            print(f"{column.capitalize()}: {value}")
+    else:
+        print("No Employee found")
 
 
