@@ -13,5 +13,8 @@ def insert_students_from_df(df):
         cursor.execute(sql, values)
         conn.commit()
 
+def testing():
+    pass
+
 
 
