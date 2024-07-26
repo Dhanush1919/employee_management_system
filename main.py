@@ -22,7 +22,30 @@ def display_menu():
     return option
 
 def main():
-    if 
+    if not authentication():
+        print("Invalid Username or Password")
+        return 
+    
+    cursor = conn.cursor()
+    while True:
+
+        option = display_menu()
+        if option == 0:
+            break 
+    
+        elif(option==1):
+             name = input('Enter the name of the employee : ')
+             age = input('Enter the age of the employee : ')
+             address = input('Enter the address of the employee : ')
+             mobile_number = input('Enter the mobile number of the employee : ')
+             gender = input('Enter the gender of employee : ')
+             education_details = input('Enter the education details of employee : ')
+             doj = input('Enter the DOJ (In YYYY-MM-DD format) of employee : ')
+             department = input('Enter the department of employee : ')
+             position = input('Enter the position of employee : ')
+             ### project = input('Enter the project of employee : ')
+             add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position)
+
 
 if __name__ == "__main__":
     main()
