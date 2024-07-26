@@ -12,9 +12,9 @@ def insert_students_from_df(df):
         values = (row['name'],row['age'],row['address'],row['mobile_number'],row['gender'],row['education_details'],row['doj'],row['department'],row['position'],row['project'])
         cursor.execute(sql, values)
         conn.commit()
-
-def testing():
-    pass
+    
+def test():
+    print("Testing")
 
 
 
