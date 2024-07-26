@@ -1,0 +1,5 @@
+numpy
+pandas
+faker
+### datetime
+mysql.connector-python
