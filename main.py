@@ -33,6 +33,7 @@ def main():
         if option == 0:
             break 
     
+        ### Adding Employee details 
         elif(option==1):
              name = input('Enter the name of the employee : ')
              age = input('Enter the age of the employee : ')
@@ -46,9 +47,38 @@ def main():
              ### project = input('Enter the project of employee : ')
              add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position)
         
+        ### Viewing employee details 
         elif(option==2):
             name = input('Enter the name of the employee to view their details : ')
             view_employee_details(name)
+
+        ### Update employee information (name can’t be updated)
+        elif(option==3):
+
+            s_name = input('Enter the name of the Student : ')
+            fields_to_update = {}
+
+            # Prompt the user for fields to update : 
+            print("Enter the fields you want to update and their new values, or leave blank to stop:")
+            while True:
+                field = input("Field name ('age','address','mobile_number','gender','education_details','doj','department','position') or leave blank to stop: ").strip()
+                if not field:
+                    break
+                value = input(f"Enter new value for {field}: ").strip()
+                fields_to_update[field] = value
+            updating_employee_info(s_name, **fields_to_update)
+
+        ### DELETING EMPLOYEE DETAILS FROM TABLE :
+        elif(option==4): ### NOT WORKING 
+
+            s_name = input('Enter the name of the Employee you want to delete : ')
+            delete_employee_details(s_name)
+
+
+
+
+
+
 
 
 

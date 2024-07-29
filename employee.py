@@ -16,6 +16,7 @@ def insert_students_from_df(df):
 def test():
     print("Testing")
 
+### Option 1 - Adding Employee Details
 def add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position):
     cursor = conn.cursor()
 
@@ -27,10 +28,11 @@ def add_employee(name,age,address,mobile_number,gender,education_details,doj,dep
 
     print("Employee detail added")
 
+### Option 2 - Viewing Employee details using Name
 def view_employee_details(name):
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT * FROM employee_details WHERE name = %s,"(name))
+    cursor.execute(f"SELECT * FROM employee_details WHERE name = %s",(name,))
     employee_details = cursor.fetchone()
 
     if employee_details:
@@ -40,4 +42,50 @@ def view_employee_details(name):
     else:
         print("No Employee found")
 
+### Option 3 - Updating existing employees information 
+def updating_employee_info(s_name, **fields):
+    cursor = conn.cursor()
+    # Check if the employee exists
+    cursor.execute("SELECT * FROM employee_details WHERE name = %s", (s_name,))
+    student = cursor.fetchone()
+    if student is None:
+        print("Error: Student not found.")
+        return
 
+    # Check if 'name' column is included in kwargs
+    if 'name' in fields:
+        print("Error: Name cannot be updated.")
+        return
+
+    # Prepare the update query
+    update_query = "UPDATE employee_details SET "
+    update_values = []
+    for key, value in fields.items():
+        update_query += f"{key} = %s, "
+        update_values.append(value)
+    if not update_values:
+        print("Error: No valid columns to update.")
+        return
+    update_query = update_query.rstrip(", ") + " WHERE name = %s"
+    update_values.append(s_name)
+
+    # Execute the update query
+    cursor.execute(update_query, update_values)
+    conn.commit()
+    print("Employee information updated successfully!")
+
+### OPTION 4 - DELETE EMPLOYEE RECORD - HAS TO BE FIXED 
+def delete_employee_details(s_name):
+    cursor = conn.cursor()
+
+    ### CHECKING IF THE EMPLOYEE EXISTS :
+    cursor.execute("SELECT * FROM employee_details WHERE name = %s",(s_name,))
+    employee = cursor.fetchone()
+
+    if employee is None:
+        print("Employee does not exist !! ")
+        return 
+    
+    deletion_query = "UPDATE employee_details SET soft_delete = 1 WHERE name = %s",(s_name,)
+
+    cursor.execute(deletion_query)
