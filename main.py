@@ -74,9 +74,31 @@ def main():
             s_name = input('Enter the name of the Employee you want to delete : ')
             delete_employee_details(s_name)
 
+        ### LISTING ALL EMPLOYEES IN ORGANIZATION : 
+        elif(option==5):
 
+            dep_name = input('Enter the name of the department : ')
+            position = input('Enter the position of the employee : ')
+            gender = input('Enter the gender of the employee : ')
 
+            display_employee(dep_name,position,gender)
 
+        ### CALCULATING TOTAL SALARY AT MONTH LEVEL OF EACH EMPLOYEE : 
+        elif(option==6):
+            pass 
+    
+        ### EXPORTING DATA TO A CSV FILE : 
+        elif(option==7):
+            
+            table_name = input('Enter the name of the table you want to export data : ')
+            expo_data(table_name)
+        
+        ### IMPORTING DATA FROM A CSV FILE :
+        elif(option==8):
+            csv_file_path = input('Enter the path of the CSV : ')
+            file_name = input('Enter the name of the file : ')
+            table_name = input('Enter the name of the table : ')
+            import_data(csv_file_path,file_name,table_name)
 
 
 

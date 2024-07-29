@@ -2,19 +2,8 @@ from connection import conn
 from datetime import datetime
 import re
 import mysql.connector 
-
-
-### INSERTING DATA INTO STUDENTS DATA :
-def insert_students_from_df(df):
-    cursor = conn.cursor()
-    for _, row in df.iterrows():
-        sql = "INSERT INTO employee_details(name,age,address,mobile_number,gender,education_details,doj,department,position) VALUES (%s, %s, %s, %s, %s, %s, %s,%s,%s)"
-        values = (row['name'],row['age'],row['address'],row['mobile_number'],row['gender'],row['education_details'],row['doj'],row['department'],row['position'])
-        cursor.execute(sql, values)
-        conn.commit()
-    
-def test():
-    print("Testing")
+import pandas as pd
+import os 
 
 ### Option 1 - Adding Employee Details
 def add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position):
@@ -89,3 +78,65 @@ def delete_employee_details(s_name):
     deletion_query = "UPDATE employee_details SET soft_delete = 1 WHERE name = %s",(s_name,)
 
     cursor.execute(deletion_query)
+
+### OPTION 5 - DISPLAYING ALL THE EMPLOYEES BASED ON DEPARTMENT, POSITION AND GENDER  
+def display_employee(dep_name,position,gender):
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM employee_details WHERE department = %s AND position = %s AND gender = %s",(dep_name,position,gender))
+    employee_data = cursor.fetchall()
+
+    for i in employee_data:
+        print(i)
+
+### OPTION 6 - CALCULATING TOTAL SALARY ON MONTH LEVEL OF EACH EMPLOYEE 
+
+
+
+### OPTION 7 - EXPORTING DATA TO CSV FILE :
+def expo_data(table_name):
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM {table_name}")
+    rows = cursor.fetchall()
+
+    column_names = [i[0] for i in cursor.description]
+
+    df = pd.DataFrame(rows, columns=column_names)
+
+    ### CONVERTING THE DATAFRAME INTO A CSV AND EXPORTING IT  
+    file_path = '/home/nineleaps/Downloads'
+    output_file = os.path.join(file_path, f'{table_name}_output.csv')
+    df.to_csv(output_file, index=False)
+
+    # Close the cursor and connection
+    cursor.close()
+    conn.close()
+
+### OPTION 8 - IMPORTING DATA FROM A CSV FILE :
+def import_data(csv_file_path,file_name,table_name):
+    cursor = conn.cursor()
+    print("The path of the file is : ", csv_file_path)
+    
+    file_path = csv_file_path+'/'+file_name
+
+    df = pd.read_csv(file_path)
+
+    print(df.head())
+
+    columns = df.columns.tolist()
+
+    # Construct the SQL INSERT statement dynamically
+    placeholders = ', '.join(['%s'] * len(columns))
+    columns = ', '.join(columns)
+    sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+
+    # Convert DataFrame rows to list of tuples
+    data = [tuple(row) for row in df.to_numpy()]
+
+    # Execute the SQL statement for each row
+    cursor.executemany(sql, data)
+    
+    # Commit the transaction
+    conn.commit()
+
