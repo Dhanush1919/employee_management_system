@@ -150,6 +150,86 @@ def import_data(csv_file_path,file_name,table_name):
     # Commit the transaction
     conn.commit()
 
+### OPTION 9 - ASSIGNING PROJECTS TO EACH EMPLOYEE : 
+def assign_project_to_each_employee():
+    try:
+        db_connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="nineleaps",
+            database="employee_management_system_schema"
+        )
+        cursor = db_connection.cursor()
+
+        # Step 1: Create a temporary table to store the latest projects for each employee
+        print("Creating temporary table...")
+        create_temp_table_query = """
+        CREATE TEMPORARY TABLE latest_projects AS
+        SELECT
+            Employee_ID,
+            Project_ID,
+            Project_name,
+            Project_assigned_date
+        FROM
+            project_assigned_details
+        WHERE
+            (Employee_ID, Project_assigned_date) IN (
+                SELECT
+                    Employee_ID,
+                    MAX(Project_assigned_date)
+                FROM
+                    project_assigned_details
+                GROUP BY
+                    Employee_ID
+            );
+        """
+        cursor.execute(create_temp_table_query)
+        cursor.execute("SELECT * FROM latest_projects;")
+        latest_projects = cursor.fetchall()
+        print(f"Temporary table created with {len(latest_projects)} records.")
+
+        # Step 2: Update the employee_data table with the latest project details
+        print("Updating employee_data with latest project details...")
+        update_employee_data_query = """
+        UPDATE employee_data e
+        JOIN latest_projects lp ON e.Employee_ID = lp.Employee_ID
+        SET
+            e.Project_ID = lp.Project_ID,
+            e.Project_name = lp.Project_name,
+            e.Project_assigned_date = lp.Project_assigned_date;
+        """
+        cursor.execute(update_employee_data_query)
+        db_connection.commit()
+        print(f"Employee data updated: {cursor.rowcount} rows affected.")
+
+        # Step 3: Handle employees without any project assignments
+        print("Updating employees without projects to default values...")
+        update_training_query = """
+        UPDATE employee_data
+        SET
+            Project_ID = 1111,
+            Project_name = 'Training',
+            Project_assigned_date = Doj
+        WHERE
+            Project_ID IS NULL OR Project_name IS NULL OR Project_assigned_date IS NULL;
+        """
+        cursor.execute(update_training_query)
+        db_connection.commit()
+        print(f"Employees updated to default values: {cursor.rowcount} rows affected.")
+
+    except mysql.connector.Error as err:
+        print(f"Database connection error: {err}")
+
+    finally:
+        # Close the cursor and connection
+        if cursor:
+            cursor.close()
+        if db_connection:
+            db_connection.close()
+
+    print("Employee data update process completed.")
+
+
 ### OPTION 13 - VIEW EMPLOYEE'S MANAGER DETAILS :
 def view_manager_details(emp_id):
     cursor = conn.cursor()

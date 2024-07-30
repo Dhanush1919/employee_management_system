@@ -107,6 +107,10 @@ def main():
             table_name = input('Enter the name of the table : ')
             
             import_data(csv_file_path,file_name,table_name)
+
+        ### ASSIGNING PROJECTS TO EACH EMPLOYEE :
+        elif(option==9):
+            assign_project_to_each_employee()
         
         ### VIEW MANAGER'S DETAILS OF AN EMPLOYEE :
         elif(option==13):
