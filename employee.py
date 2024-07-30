@@ -150,6 +150,35 @@ def import_data(csv_file_path,file_name,table_name):
     # Commit the transaction
     conn.commit()
 
+### OPTION 13 - VIEW EMPLOYEE'S MANAGER DETAILS :
+def view_manager_details(emp_id):
+    cursor = conn.cursor()
+
+    manager_details = """
+    SELECT
+        m.Manager_name, 
+        COUNT(e.Employee_ID) AS Reportee_Count 
+    FROM 
+        manager_details m 
+    INNER JOIN 
+        manager_details e 
+    ON 
+        m.Manager_ID = e.Manager_ID 
+    WHERE 
+        e.Employee_ID = %s
+    GROUP BY 
+        m.Manager_id,
+        m.Manager_name
+    """
+    cursor.execute(manager_details, (emp_id,))
+    result = cursor.fetchone()
+
+    if result:
+        manager_name, reportee_count = result[:2]
+        print(f"Manager Name: {manager_name}, Number of Reportees: {reportee_count}")
+    else:
+        print("No manager details found for the given employee ID.")
+
 ### OPTION 15 - 
 
 ### OPTION 16 - SEARCHING EMPLOYEES BY NAME :

@@ -108,6 +108,12 @@ def main():
             
             import_data(csv_file_path,file_name,table_name)
         
+        ### VIEW MANAGER'S DETAILS OF AN EMPLOYEE :
+        elif(option==13):
+            emp_id = input('Enter the ID of the Employee to view their manager details : ')
+            view_manager_details(emp_id)
+
+
         ### SEARCHING EMPLOYEES BY NAME :
         elif(option==16):
             e_name = input('Enter the name of the Employee to search for : ')
