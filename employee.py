@@ -150,6 +150,8 @@ def import_data(csv_file_path,file_name,table_name):
     # Commit the transaction
     conn.commit()
 
+### OPTION 15 - 
+
 ### OPTION 16 - SEARCHING EMPLOYEES BY NAME :
 def searching_using_name(e_name):
     cursor = conn.cursor()
