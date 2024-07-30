@@ -5,23 +5,23 @@ import mysql.connector
 import pandas as pd
 import os 
 
-### Option 1 - Adding Employee Details
-def add_employee(name,age,address,mobile_number,gender,education_details,doj,department,position):
+### OPTION 1 - ADD EMPLOYEE DETAILS 
+def add_employee(Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary):
     cursor = conn.cursor()
 
-    sql = "INSERT INTO employee_details (name,age,address,mobile_number,gender,education_details,doj,department,position) VALUES (%s, %s, %s, %s, %s, %s, %s,%s,%s)"
-    values = (name,age,address,mobile_number,gender,education_details,doj,department,position)
+    sql = "INSERT INTO employee_data (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    values = (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary)
 
     cursor.execute(sql, values)
     conn.commit()
 
     print("Employee detail added")
 
-### Option 2 - Viewing Employee details using Name
-def view_employee_details(name):
+### OPTION 2 - VIEWING EMPLOYEE DETAILS USING EMPLOYEE_ID 
+def view_employee_details(Employee_ID):
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT * FROM employee_details WHERE name = %s",(name,))
+    cursor.execute(f"SELECT * FROM employee_data WHERE Employee_ID = %s",(Employee_ID,))
     employee_details = cursor.fetchone()
 
     if employee_details:
@@ -32,22 +32,22 @@ def view_employee_details(name):
         print("No Employee found")
 
 ### Option 3 - Updating existing employees information 
-def updating_employee_info(s_name, **fields):
+def updating_employee_info(s_id, **fields):
     cursor = conn.cursor()
     # Check if the employee exists
-    cursor.execute("SELECT * FROM employee_details WHERE name = %s", (s_name,))
+    cursor.execute("SELECT * FROM employee_data WHERE Employee_ID = %s", (s_id,))
     student = cursor.fetchone()
     if student is None:
         print("Error: Student not found.")
         return
 
     # Check if 'name' column is included in kwargs
-    if 'name' in fields:
+    if 'Name' in fields:
         print("Error: Name cannot be updated.")
         return
 
     # Prepare the update query
-    update_query = "UPDATE employee_details SET "
+    update_query = "UPDATE employee_data SET "
     update_values = []
     for key, value in fields.items():
         update_query += f"{key} = %s, "
@@ -55,35 +55,45 @@ def updating_employee_info(s_name, **fields):
     if not update_values:
         print("Error: No valid columns to update.")
         return
-    update_query = update_query.rstrip(", ") + " WHERE name = %s"
-    update_values.append(s_name)
+    update_query = update_query.rstrip(", ") + " WHERE Employee_ID = %s"
+    update_values.append(s_id)
 
     # Execute the update query
     cursor.execute(update_query, update_values)
     conn.commit()
     print("Employee information updated successfully!")
 
-### OPTION 4 - DELETE EMPLOYEE RECORD - HAS TO BE FIXED 
-def delete_employee_details(s_name):
+### OPTION 4 - DELETE EMPLOYEE RECORD
+def delete_employee_details(Employee_ID):
+
+    conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="nineleaps",
+    database="employee_management_system_schema"
+    )
+
     cursor = conn.cursor()
 
     ### CHECKING IF THE EMPLOYEE EXISTS :
-    cursor.execute("SELECT * FROM employee_details WHERE name = %s",(s_name,))
+    cursor.execute("SELECT * FROM employee_data WHERE Employee_ID = %s",(Employee_ID,))
     employee = cursor.fetchone()
 
     if employee is None:
         print("Employee does not exist !! ")
         return 
     
-    deletion_query = "UPDATE employee_details SET soft_delete = 1 WHERE name = %s",(s_name,)
+    deletion_query = "DELETE FROM employee_data WHERE Employee_ID = %s",(Employee_ID,)
 
     cursor.execute(deletion_query)
+    cursor.close()
+
 
 ### OPTION 5 - DISPLAYING ALL THE EMPLOYEES BASED ON DEPARTMENT, POSITION AND GENDER  
-def display_employee(dep_name,position,gender):
+def display_employee(Department,Position,Gender):
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM employee_details WHERE department = %s AND position = %s AND gender = %s",(dep_name,position,gender))
+    cursor.execute("SELECT Employee_ID,Name,Age FROM employee_data WHERE Department = %s AND Position = %s AND Gender = %s",(Department,Position,Gender))
     employee_data = cursor.fetchall()
 
     for i in employee_data:
@@ -106,7 +116,7 @@ def expo_data(table_name):
 
     ### CONVERTING THE DATAFRAME INTO A CSV AND EXPORTING IT  
     file_path = '/home/nineleaps/Downloads'
-    output_file = os.path.join(file_path, f'{table_name}_output.csv')
+    output_file = os.path.join(file_path, f'{table_name}_exported.csv')
     df.to_csv(output_file, index=False)
 
     # Close the cursor and connection
@@ -116,12 +126,12 @@ def expo_data(table_name):
 ### OPTION 8 - IMPORTING DATA FROM A CSV FILE :
 def import_data(csv_file_path,file_name,table_name):
     cursor = conn.cursor()
-    print("The path of the file is : ", csv_file_path)
     
     file_path = csv_file_path+'/'+file_name
 
     df = pd.read_csv(file_path)
 
+    print(f"Preview of the 1st five records which will be inserted into {table_name}")
     print(df.head())
 
     columns = df.columns.tolist()
@@ -140,3 +150,63 @@ def import_data(csv_file_path,file_name,table_name):
     # Commit the transaction
     conn.commit()
 
+### OPTION 16 - SEARCHING EMPLOYEES BY NAME :
+def searching_using_name(e_name):
+    cursor = conn.cursor()
+
+    search_query = "SELECT * FROM employee_data WHERE Name = %s"
+
+    cursor.execute(search_query, (e_name,))
+
+    employee_data = cursor.fetchall()
+
+    for i in employee_data:
+        print(i)
+
+### OPTION 17 - SEARCHING EMPLOYEES BY TECH STACK :
+def searching_using_tech_stack(t_stack):
+    cursor = conn.cursor()
+
+    search_query = "SELECT * FROM employee_data WHERE tech_stack = %s"
+
+    cursor.execute(search_query, (t_stack,))
+
+    employee_data = cursor.fetchall()
+
+    for i in employee_data:
+        print(i)
+
+### OPTION 18 - SEARCHING EMPLOYEES BY PROJECT :
+def searching_using_project(p_name):
+    cursor = conn.cursor()
+
+    search_query = "SELECT * FROM employee_data WHERE project_name = %s"
+
+    cursor.execute(search_query, (p_name,))
+
+    employee_data = cursor.fetchall()
+
+    for i in employee_data:
+        print(i)
+    
+### OPTION 19 - SORT EMPLOYEES BY SALARY :
+def sorting_records(sort_type):
+    cursor = conn.cursor() 
+
+    # Query to fetch and sort records by Employee_salary
+    query = f"SELECT * FROM employee_data ORDER BY Employee_salary {sort_type}"
+
+    # Execute the query
+    cursor.execute(query)
+
+    # Fetch all the sorted records
+    sorted_records = cursor.fetchall()
+
+    column_names = [i[0] for i in cursor.description]
+    print(column_names)
+
+    for record in sorted_records:
+        print(record)
+
+    if cursor:
+        cursor.close()

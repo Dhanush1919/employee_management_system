@@ -168,23 +168,33 @@ try:
 
     # Generate and insert random data into Project_assigned_details table
     num_records = 100  # Number of records to insert
+    inserted_count = 0  # Counter for successfully inserted records
 
     for _ in range(num_records):
         project_assignment = generate_random_project_assignment(employee_ids, project_ids)
-        insert_query = """
-        INSERT INTO project_assigned_details (
-            Project_ID, Project_name, Project_description, Project_start_date, Project_end_date,
-            Employee_ID, Project_assigned_date
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s);
+        check_query = """
+        SELECT COUNT(*) FROM project_assigned_details
+        WHERE Project_ID = %s AND Employee_ID = %s;
         """
-        try:
-            cursor.execute(insert_query, (
-                project_assignment["Project_ID"], project_assignment["Project_name"], project_assignment["Project_description"],
-                project_assignment["Project_start_date"], project_assignment["Project_end_date"],
-                project_assignment["Employee_ID"], project_assignment["Project_assigned_date"]
-            ))
-        except mysql.connector.Error as err:
-            print(f"Error inserting record into Project_assigned_details table: {err}")
+        cursor.execute(check_query, (project_assignment["Project_ID"], project_assignment["Employee_ID"]))
+        if cursor.fetchone()[0] == 0:  # No duplicate found
+            insert_query = """
+            INSERT INTO project_assigned_details (
+                Project_ID, Project_name, Project_description, Project_start_date, Project_end_date,
+                Employee_ID, Project_assigned_date
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s);
+            """
+            try:
+                cursor.execute(insert_query, (
+                    project_assignment["Project_ID"], project_assignment["Project_name"], project_assignment["Project_description"],
+                    project_assignment["Project_start_date"], project_assignment["Project_end_date"],
+                    project_assignment["Employee_ID"], project_assignment["Project_assigned_date"]
+                ))
+                inserted_count += 1
+            except mysql.connector.Error as err:
+                print(f"Error inserting record into Project_assigned_details table: {err}")
+        else:
+            print(f"Duplicate found for Project_ID {project_assignment['Project_ID']} and Employee_ID {project_assignment['Employee_ID']}, skipping insertion.")
 
     # Commit the transaction
     db_connection.commit()
@@ -199,4 +209,4 @@ finally:
     if db_connection:
         db_connection.close()
 
-print(f"{num_records} records attempted to insert into Project_assigned_details table.")
+print(f"{inserted_count} records successfully inserted into Project_assigned_details table out of {num_records} attempts.")
