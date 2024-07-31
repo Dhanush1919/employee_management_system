@@ -17,3 +17,4 @@
 5. data_insertion.py
 6. employee.py
 7. main.py
+8. drop_tables.py
