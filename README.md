@@ -2,8 +2,13 @@
 
 # Authentication credentials
 - Username : nineleaps
-- Password : nineleaps  
+- Password : nineleaps
 
+# MySQL credentials :
+- User_name : root
+- Pwd : nineleaps
+- Database : employee_management_system_schema
+  
 # Tables Involved
 1. Employee_data
 2. Manager_details
