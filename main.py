@@ -111,12 +111,26 @@ def main():
         ### ASSIGNING PROJECTS TO EACH EMPLOYEE :
         elif(option==9):
             assign_project_to_each_employee()
+
+        ### VIEWING EMPLOYEES PROJECTS DETAILS :
+        elif(option==10):
+            emp_id = input('Enter the ID of the employee to view their projects : ')
+            view_project_details(emp_id)
+
+        ### ASSIGNING MANAGER TO EACH EMPLOYEE :
+        elif(option==12):
+            table_name = input('Enter the Employee Table name : ')
+            assign_manager_to_each_employees()
         
         ### VIEW MANAGER'S DETAILS OF AN EMPLOYEE :
         elif(option==13):
             emp_id = input('Enter the ID of the Employee to view their manager details : ')
             view_manager_details(emp_id)
-
+        
+        ### VIEW EMPLOYEE'S KNOWN TECH STACK :
+        elif(option==15):
+            department_name = input('Enter the name of the department : ')
+            view_employees_known_tech_stack(department_name)
 
         ### SEARCHING EMPLOYEES BY NAME :
         elif(option==16):

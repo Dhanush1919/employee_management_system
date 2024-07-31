@@ -229,6 +229,47 @@ def assign_project_to_each_employee():
 
     print("Employee data update process completed.")
 
+### OPTION 10 - VIEW EMPLOYEE'S PROJECT DETAILS :
+def view_project_details(emp_id):
+    cursor = conn.cursor()
+
+    employee_project_details = """
+    SELECT 
+        Employee_ID,
+        project_id,
+        project_name,
+        project_description,
+        project_start_date,
+        project_end_date
+        project_assigned_date
+    FROM employee_management_system_schema.project_assigned_details EP
+
+    WHERE EP.Employee_ID = %s
+    """
+
+    cursor.execute(employee_project_details,(emp_id,))
+    result = cursor.fetchall()
+
+    for i in result:
+        print(i)
+
+### OPTION 12 - ASSIGNING A MANAGER TO EACH EMPLOYEE :
+def assign_manager_to_each_employees():
+    cursor = conn.cursor()
+
+    update_manager_id_query = """
+    UPDATE employee_data e
+    JOIN manager_details m ON e.Employee_ID = m.Employee_ID
+    SET e.Manager_ID = m.Manager_ID;
+    """
+    cursor.execute(update_manager_id_query)
+
+    conn.commit()
+
+    print(f"Employee data updated: {cursor.rowcount} rows affected.")
+
+    if cursor:
+        cursor.close()
 
 ### OPTION 13 - VIEW EMPLOYEE'S MANAGER DETAILS :
 def view_manager_details(emp_id):
@@ -259,7 +300,18 @@ def view_manager_details(emp_id):
     else:
         print("No manager details found for the given employee ID.")
 
-### OPTION 15 - 
+### OPTION 15 -  VIEW EMPLOYEE'S TECH STACK :
+def view_employees_known_tech_stack(department_name):
+    cursor = conn.cursor()
+
+    view_employees_tech_stack = "SELECT Employee_Id,tech_stack FROM employee_data WHERE Department = %s"
+
+    cursor.execute(view_employees_tech_stack,(department_name,))
+    
+    tech_stack_data = cursor.fetchall()
+
+    for i in tech_stack_data:
+        print(i)
 
 ### OPTION 16 - SEARCHING EMPLOYEES BY NAME :
 def searching_using_name(e_name):
