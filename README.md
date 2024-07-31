@@ -1,12 +1,13 @@
-# employee_management_system
+# Employee Management System 
+
 # Authentication credentials :
-Username : nineleaps, 
-Password : nineleaps  
+- Username : nineleaps
+- Password : nineleaps  
 
 # Tables Involved : 
-Employee_data,
-Manager_details,
-Project_assigned_details
+1. Employee_data
+2. Manager_details,
+3. Project_assigned_details
 
 # Orders to Run File :
 1. requirements.txt
