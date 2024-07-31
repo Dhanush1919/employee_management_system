@@ -87,8 +87,8 @@ def delete_employee_details(Employee_ID):
 
     print("Employee deleted successfully.")
 
-    cursor.close()
-    conn.close()
+    ### cursor.close()
+    ### conn.close()
 
 
 ### OPTION 5 - DISPLAYING ALL THE EMPLOYEES BASED ON DEPARTMENT, POSITION AND GENDER  
@@ -141,8 +141,8 @@ def expo_data(table_name):
     df.to_csv(output_file, index=False)
 
     # Close the cursor and connection
-    cursor.close()
-    conn.close()
+    ### cursor.close()
+    ### conn.close()
 
 ### OPTION 8 - IMPORTING DATA FROM A CSV FILE :
 def import_data(csv_file_path,file_name,table_name):
@@ -241,12 +241,12 @@ def assign_project_to_each_employee():
     except mysql.connector.Error as err:
         print(f"Database connection error: {err}")
 
-    finally:
+    ###finally:
         # Close the cursor and connection
-        if cursor:
-            cursor.close()
-        if db_connection:
-            db_connection.close()
+        ### if cursor:
+            ### cursor.close()
+        ### if db_connection:
+            ### db_connection.close()
 
     print("Employee data update process completed.")
 
@@ -311,8 +311,8 @@ def updating_employee_project_details(emp_id,project_id,project_name,project_des
     # Commit the transaction to save the changes
     conn.commit()
 
-    if cursor:
-        cursor.close()
+    ### if cursor:
+        ### cursor.close()
 
 
 ### OPTION 12 - ASSIGNING A MANAGER TO EACH EMPLOYEE :
@@ -330,8 +330,8 @@ def assign_manager_to_each_employees():
 
     print(f"Employee data updated: {cursor.rowcount} rows affected.")
 
-    if cursor:
-        cursor.close()
+    ### if cursor:
+        ### cursor.close()
 
 ### OPTION 13 - VIEW EMPLOYEE'S MANAGER DETAILS :
 def view_manager_details(emp_id):
@@ -392,8 +392,9 @@ def adding_tech_stack(emp_id,tech_stack):
     else:
         print(f"Employee ID {emp_id} not found.")
 
-    if cursor:
-        cursor.close()
+    
+    ### if cursor:
+        ### cursor.close()
 
 ### OPTION 15 -  VIEW EMPLOYEE'S TECH STACK :
 def view_employees_known_tech_stack(department_name):
@@ -466,5 +467,5 @@ def sorting_records(sort_type):
     for record in sorted_records:
         print(record)
 
-    if cursor:
-        cursor.close()
+    ### if cursor:
+        ### cursor.close()
