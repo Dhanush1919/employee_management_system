@@ -6,7 +6,7 @@
 
 # Tables Involved : 
 1. Employee_data
-2. Manager_details,
+2. Manager_details
 3. Project_assigned_details
 
 # Orders to Run File :
