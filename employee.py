@@ -6,11 +6,11 @@ import pandas as pd
 import os 
 
 ### OPTION 1 - ADD EMPLOYEE DETAILS 
-def add_employee(Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary):
+def add_employee(Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Employees_known_tech_stack,Employee_salary):
     cursor = conn.cursor()
 
-    sql = "INSERT INTO employee_data (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    values = (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary)
+    sql = "INSERT INTO employee_data (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Employees_known_tech_stack,Employee_salary) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    values = (Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Employees_known_tech_stack,Employee_salary)
 
     cursor.execute(sql, values)
     conn.commit()
@@ -365,13 +365,41 @@ def view_manager_details(emp_id):
 ### OPTION 14 - ADDING TECH STACK FOR EMPLOYEES : 
 def adding_tech_stack(emp_id,tech_stack):
     
-    return emp_id,tech_stack
+    cursor = conn.cursor()
+
+    # First, fetch the current tech stack of the employee
+    fetch_query = "SELECT Employees_known_tech_stack FROM employee_data WHERE Employee_ID = %s"
+    
+    cursor.execute(fetch_query, (emp_id,))
+    
+    current_tech_stack = cursor.fetchone()
+    
+    if current_tech_stack:
+        current_tech_stack = current_tech_stack[0]
+        
+        # Append the new tech stack to the existing one, if it's not empty
+        if current_tech_stack:
+            new_tech_stack = current_tech_stack + ", " + tech_stack
+        else:
+            new_tech_stack = tech_stack
+        
+        # Update the tech stack in the database
+        update_query = "UPDATE employee_data SET Employees_known_tech_stack = %s WHERE Employee_ID = %s"
+        cursor.execute(update_query, (new_tech_stack, emp_id))
+
+        conn.commit()
+        print(f"Updated tech stack for Employee ID {emp_id} to: {new_tech_stack}")
+    else:
+        print(f"Employee ID {emp_id} not found.")
+
+    if cursor:
+        cursor.close()
 
 ### OPTION 15 -  VIEW EMPLOYEE'S TECH STACK :
 def view_employees_known_tech_stack(department_name):
     cursor = conn.cursor()
 
-    view_employees_tech_stack = "SELECT Employee_Id,tech_stack FROM employee_data WHERE Department = %s"
+    view_employees_tech_stack = "SELECT Employee_Id,Employees_known_tech_stack, Department FROM employee_data WHERE Department = %s"
 
     cursor.execute(view_employees_tech_stack,(department_name,))
     
@@ -397,9 +425,9 @@ def searching_using_name(e_name):
 def searching_using_tech_stack(t_stack):
     cursor = conn.cursor()
 
-    search_query = "SELECT * FROM employee_data WHERE tech_stack = %s"
+    search_query = "SELECT * FROM employee_data WHERE Employees_known_tech_stack LIKE %s"
 
-    cursor.execute(search_query, (t_stack,))
+    cursor.execute(search_query, ('%' + t_stack + '%',))
 
     employee_data = cursor.fetchall()
 

@@ -19,7 +19,6 @@ CREATE TABLE employee_data (
     Project_name VARCHAR(100),
     Project_assigned_date DATE,
     Manager_ID INT,
-    Tech_stack VARCHAR(255),
     Employees_known_tech_stack VARCHAR(255),
     Employee_salary DECIMAL(10, 2)
 );

@@ -6,8 +6,23 @@ from datetime import datetime, timedelta
 # Initialize Faker
 fake = Faker()
 
+# Define possible tech stacks
+tech_stacks = [
+    ["Business Intelligence", "Dashboard building"],
+    ["Building Data Pipelines", "Performing EDA", "Data Manipulation"],
+    ["Model Building", "Model deployment"],
+    ["Cryptography", "Cybersecurity"],
+    ["Gen AI", "Langchain", "OpenAI", "Model development"],
+    ["Data Analysis", "Statistical Modeling"],
+    ["Cloud Computing", "AWS", "Azure"],
+    ["Machine Learning", "Deep Learning"],
+    ["Data Visualization", "Tableau", "Power BI"],
+    ["Software Development", "Agile Methodologies"]
+]
+
 # Function to generate random data
 def generate_random_employee():
+    tech_stack = ', '.join(random.choice(tech_stacks))
     return {
         "Employee_ID": fake.unique.random_number(digits=5),
         "Name": fake.name(),
@@ -19,8 +34,7 @@ def generate_random_employee():
         "Doj": fake.date_between(start_date='-10y', end_date='today'),
         "Department": random.choice(["HR", "Engineering", "Marketing", "Sales", "Analytics", "Product Management", "Customer Support"]),
         "Position": fake.job(),
-        "Tech_stack": fake.word(),
-        "Employees_known_tech_stack": fake.word(),
+        "Employees_known_tech_stack": tech_stack,
         "Employee_salary": round(random.uniform(30000, 120000), 2)
     }
 
@@ -42,16 +56,15 @@ try:
         insert_query = """
         INSERT INTO employee_data (
             Employee_ID, Name, Age, Address, Mobile_number, Gender, Education_details,
-            Doj, Department, Position, Tech_stack, Employees_known_tech_stack, Employee_salary
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            Doj, Department, Position, Employees_known_tech_stack, Employee_salary
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
         try:
             cursor.execute(insert_query, (
                 employee["Employee_ID"], employee["Name"], employee["Age"], employee["Address"],
                 employee["Mobile_number"], employee["Gender"], employee["Education_details"],
                 employee["Doj"], employee["Department"], employee["Position"],
-                employee["Tech_stack"], employee["Employees_known_tech_stack"],
-                employee["Employee_salary"]
+                employee["Employees_known_tech_stack"], employee["Employee_salary"]
             ))
         except mysql.connector.Error as err:
             print(f"Error inserting record: {err}")

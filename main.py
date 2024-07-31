@@ -54,10 +54,9 @@ def main():
             Project_name = input('Enter the Project_name of the Employee : ')
             Project_assigned_date = input('Enter the Project_assigned_date of the Employee : ')
             Manager_ID = input('Enter the Manager_ID of the Employee : ')
-            Tech_stack = input('Enter the Tech_stack of the Employee : ')
             Employees_known_tech_stack = input('Enter the Employees_known_tech_stack of the Employee : ')
             Employee_salary = input('Enter the Employee_salary of the Employee : ')
-            add_employee(Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Tech_stack,Employees_known_tech_stack,Employee_salary)
+            add_employee(Employee_ID,Name,Age,Address,Mobile_number,Gender,Education_details,Doj,Department,Position,Project_ID,Project_name,Project_assigned_date,Manager_ID,Employees_known_tech_stack,Employee_salary)
         
         ### OPTION 2 - VIEWING EMPLOYEE DETAILS USING EMPLOYEE_ID 
         elif(option==2):
@@ -150,8 +149,12 @@ def main():
         
         ### VIEW EMPLOYEE'S KNOWN TECH STACK :
         elif(option==15):
-            department_name = input('Enter the name of the department : ')
-            view_employees_known_tech_stack(department_name)
+            department_name = input('Enter the name of the Department you want to check for : ')
+
+            if(department_name == 'Engineering'):
+                view_employees_known_tech_stack(department_name)
+            else:
+                print("Invalid Department Entry")
 
         ### SEARCHING EMPLOYEES BY NAME :
         elif(option==16):
