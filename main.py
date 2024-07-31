@@ -14,10 +14,8 @@ def display_menu():
     print("8. IMPORTING DATA FROM A CSV FILE")
     print("9. Assign a project to each employee [there could be some employees who are not in any project, put them in Training]")
     print("10. View employee's project details (past and present projects)")
-    print("11. Update employee's project details (past project details should remain)")
     print("12. Assign a manager to each employee (No employee should be without a manager)")
     print("13. View manager details of any employee (mentees with him/her)")
-    print("14. Add tech stack for employees")
     print("15. View employee's known tech stack (applicable only for engineering employees)")
     print("16. SEARCHING EMPLOYEES BY NAME")
     print("17. SEARCHING EMPLOYEES BY TECH STACK")
@@ -158,8 +156,6 @@ def main():
         elif(option==19):
             sort_type = input('Enter the type of Sort : ')
             sorting_records(sort_type)
-
-
 
 
 
