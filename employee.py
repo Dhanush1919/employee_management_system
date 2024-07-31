@@ -274,6 +274,47 @@ def view_project_details(emp_id):
     for i in result:
         print(i)
 
+### OPTION 11 - UPDATING EMPLOYEES PROJECT DETAILS :
+def updating_employee_project_details(emp_id,project_id,project_name,project_desc):
+    
+    cursor = conn.cursor()
+    
+    current_date = datetime.now().strftime('%Y-%m-%d')
+
+    # Check if the employee_id is present and has a project with project_end_date as NULL
+    check_query = """
+    SELECT * FROM project_assigned_details
+    WHERE Employee_ID = %s AND Project_end_date IS NULL;
+    """
+    cursor.execute(check_query, (emp_id,))
+    current_project = cursor.fetchone()
+
+    if current_project:
+        # Update the current project to set the project_end_date to today's date
+        update_query = """
+        UPDATE project_assigned_details
+        SET Project_end_date = %s
+        WHERE Employee_ID = %s AND Project_end_date IS NULL;
+        """
+        cursor.execute(update_query, (current_date, emp_id))
+        print(f"Updated current project for employee {emp_id}.")
+
+    # Insert the new project assignment
+    insert_query = """
+    INSERT INTO project_assigned_details (
+        Project_ID, Project_name, Project_description, Project_start_date, Project_end_date, Employee_ID
+    ) VALUES (%s, %s, %s, %s, NULL, %s);
+    """
+    cursor.execute(insert_query, (project_id, project_name, project_desc, current_date, emp_id))
+    print(f"Inserted new project assignment for employee {emp_id}.")
+
+    # Commit the transaction to save the changes
+    conn.commit()
+
+    if cursor:
+        cursor.close()
+
+
 ### OPTION 12 - ASSIGNING A MANAGER TO EACH EMPLOYEE :
 def assign_manager_to_each_employees():
     cursor = conn.cursor()
@@ -320,6 +361,11 @@ def view_manager_details(emp_id):
         print(f"Manager Name: {manager_name}, Number of Reportees: {reportee_count}")
     else:
         print("No manager details found for the given employee ID.")
+
+### OPTION 14 - ADDING TECH STACK FOR EMPLOYEES : 
+def adding_tech_stack(emp_id,tech_stack):
+    
+    return emp_id,tech_stack
 
 ### OPTION 15 -  VIEW EMPLOYEE'S TECH STACK :
 def view_employees_known_tech_stack(department_name):

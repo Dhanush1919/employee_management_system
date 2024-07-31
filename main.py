@@ -12,11 +12,13 @@ def display_menu():
     print("6. CALCULATING TOTAL SALARY AT MONTH LEVEL OF EACH EMPLOYEE ")
     print("7. EXPORTING DATA TO A CSV FILE")
     print("8. IMPORTING DATA FROM A CSV FILE")
-    print("9. Assign a project to each employee [there could be some employees who are not in any project, put them in Training]")
-    print("10. View employee's project details (past and present projects)")
-    print("12. Assign a manager to each employee (No employee should be without a manager)")
-    print("13. View manager details of any employee (mentees with him/her)")
-    print("15. View employee's known tech stack (applicable only for engineering employees)")
+    print("9. ASSIGN A PROJECT TO EACH EMPLOYEE [there could be some employees who are not in any project, put them in Training]")
+    print("10. VIEW EMPLOYEE'S PAST PROJECT DETAILS (past and present projects)")
+    print("11. UPDATE EMPLOYEES PROJECT DETAILS (past project details should remain)")
+    print("12. ASSIGN A MANAGER TO EACH EMPLOYEE (No employee should be without a manager)")
+    print("13. VIEW MANAGER DETAILS OF ANY EMPLOYEE (mentees with him/her)")
+    print("14. ADD TECH STACK FOR EMPLOYEES")
+    print("15. VIEW EMPLOYEE'S KNOWN TECH STACK (applicable only for engineering employees)")
     print("16. SEARCHING EMPLOYEES BY NAME")
     print("17. SEARCHING EMPLOYEES BY TECH STACK")
     print("18. SEARCHING EMPLOYEES BY PROJECT")
@@ -122,6 +124,14 @@ def main():
             emp_id = input('Enter the ID of the employee to view their projects : ')
             view_project_details(emp_id)
 
+        ### UPDATE EMPLOYEES PROJECT DETAILS (past project details should remain) :
+        elif(option==11):
+            emp_id = input('Enter the ID of the Employee : ')
+            project_id = input('Enter the ID of the Project : ')
+            project_name = input('Enter the Name of the Project : ')
+            project_desc = input('Enter the description of the Project : ')
+            updating_employee_project_details(emp_id,project_id,project_name,project_desc)
+
         ### ASSIGNING MANAGER TO EACH EMPLOYEE :
         elif(option==12):
             table_name = input('Enter the Employee Table name : ')
@@ -131,6 +141,12 @@ def main():
         elif(option==13):
             emp_id = input('Enter the ID of the Employee to view their manager details : ')
             view_manager_details(emp_id)
+
+        ### ADD TECH STACK FOR EMPLOYEES :
+        elif(option==14):
+            emp_id = input('Enter the ID of the Employee : ')
+            tech_stack = input('Enter the Tech stack of Employee : ')
+            adding_tech_stack(emp_id,tech_stack)
         
         ### VIEW EMPLOYEE'S KNOWN TECH STACK :
         elif(option==15):
@@ -156,7 +172,6 @@ def main():
         elif(option==19):
             sort_type = input('Enter the type of Sort : ')
             sorting_records(sort_type)
-
 
 
 if __name__ == "__main__":
