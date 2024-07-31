@@ -66,27 +66,29 @@ def updating_employee_info(s_id, **fields):
 ### OPTION 4 - DELETE EMPLOYEE RECORD
 def delete_employee_details(Employee_ID):
 
-    conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="nineleaps",
-    database="employee_management_system_schema"
-    )
-
     cursor = conn.cursor()
 
-    ### CHECKING IF THE EMPLOYEE EXISTS :
-    cursor.execute("SELECT * FROM employee_data WHERE Employee_ID = %s",(Employee_ID,))
+    # CHECKING IF THE EMPLOYEE EXISTS:
+    cursor.execute("SELECT * FROM employee_data WHERE Employee_ID = %s", (Employee_ID,))
     employee = cursor.fetchone()
 
     if employee is None:
-        print("Employee does not exist !! ")
+        print("Employee does not exist !!")
+        cursor.close()
+        conn.close()  # Close the connection if the employee does not exist
         return 
-    
-    deletion_query = "DELETE FROM employee_data WHERE Employee_ID = %s",(Employee_ID,)
 
-    cursor.execute(deletion_query)
+    # Deletion query
+    deletion_query = "DELETE FROM employee_data WHERE Employee_ID = %s"
+    cursor.execute(deletion_query, (Employee_ID,))
+
+    # Commit the transaction
+    conn.commit()
+
+    print("Employee deleted successfully.")
+
     cursor.close()
+    conn.close()
 
 
 ### OPTION 5 - DISPLAYING ALL THE EMPLOYEES BASED ON DEPARTMENT, POSITION AND GENDER  
@@ -100,8 +102,27 @@ def display_employee(Department,Position,Gender):
         print(i)
 
 ### OPTION 6 - CALCULATING TOTAL SALARY ON MONTH LEVEL OF EACH EMPLOYEE 
+def month_wise_salary():
 
+    cursor = conn.cursor()
 
+    month_wise_salary_query = """
+    SELECT
+        DATE_FORMAT(Doj, '%Y-%m') AS joining_month,
+        SUM(Employee_salary) AS total_salary
+    FROM
+        employee_data
+    GROUP BY
+        joining_month
+    ORDER BY
+        joining_month
+    """
+
+    cursor.execute(month_wise_salary_query)
+    result = cursor.fetchall()
+
+    for i in result:
+        print(i)
 
 ### OPTION 7 - EXPORTING DATA TO CSV FILE :
 def expo_data(table_name):

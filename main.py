@@ -90,7 +90,7 @@ def main():
 
         ### CALCULATING TOTAL SALARY AT MONTH LEVEL OF EACH EMPLOYEE : 
         elif(option==6):
-            pass 
+            month_wise_salary()
     
         ### EXPORTING DATA TO A CSV FILE : 
         elif(option==7):
