@@ -4,7 +4,7 @@
 - Username : nineleaps
 - Password : nineleaps
 
-# MySQL credentials :
+# MySQL credentials : (Local credentials)
 - User_name : root
 - Pwd : nineleaps
 - Database : employee_management_system_schema
