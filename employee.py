@@ -97,7 +97,7 @@ def display_employee(Department,Position,Gender):
 
     cursor.execute("SELECT Employee_ID,Name,Age FROM employee_data WHERE Department = %s AND Position = %s AND Gender = %s",(Department,Position,Gender))
     employee_data = cursor.fetchall()
-    
+
     for i in employee_data:
         print(i)
 
@@ -307,6 +307,21 @@ def updating_employee_project_details(emp_id,project_id,project_name,project_des
     """
     cursor.execute(insert_query, (project_id, project_name, project_desc, current_date, emp_id))
     print(f"Inserted new project assignment for employee {emp_id}.")
+
+    #### NEWLY ADDED
+
+    current_date = datetime.now().strftime('%Y-%m-%d')
+
+    # Update the project details in the employee_data table
+    update_employee_data_query = """
+    UPDATE employee_data
+    SET project_id = %s, project_name = %s, project_assigned_date = %s
+    WHERE Employee_ID = %s;
+    """
+    cursor.execute(update_employee_data_query, (project_id, project_name, current_date, emp_id))
+    print(f"Updated employee_data table for employee {emp_id}.")
+    #### NEWLY ADDED
+
 
     # Commit the transaction to save the changes
     conn.commit()

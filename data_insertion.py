@@ -165,16 +165,15 @@ fake = Faker()
 
 # Predefined list of unique projects
 projects = [
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()},
-    {"Project_ID": fake.unique.random_number(digits=4), "Project_name": fake.word(), "Project_description": fake.sentence()}
+    {"Project_ID": 1001, "Project_name": "Data Science & ML", "Project_description": "Developing predictive models and algorithms for data-driven insights."},
+    {"Project_ID": 1002, "Project_name": "Block Chain & Quantum Computing", "Project_description": "Innovating secure transactions using blockchain and quantum computing."},
+    {"Project_ID": 1003, "Project_name": "Product Management", "Project_description": "Overseeing product development and market strategy."},
+    {"Project_ID": 1004, "Project_name": "Data Pipelines and ETLs", "Project_description": "Building efficient data pipelines and ETL processes for seamless data integration."},
+    {"Project_ID": 1005, "Project_name": "Gen AI and Artificial Intelligence", "Project_description": "Advancing AI models for intelligent automation and decision-making."},
+    {"Project_ID": 1006, "Project_name": "Quantum computing", "Project_description": "Exploring the potential of quantum computing for complex problem-solving."},
+    {"Project_ID": 1008, "Project_name": "DEV OPS", "Project_description": "Streamlining development and operations for continuous delivery."},
+    {"Project_ID": 1009, "Project_name": "DEV SEC OPS & Cyber security", "Project_description": "Enhancing security measures in DevOps environments."},
+    {"Project_ID": 1010, "Project_name": "Customer engagement and Retention", "Project_description": "Strategies to boost customer engagement and retention rates."}
 ]
 
 # Function to generate project assignment details
