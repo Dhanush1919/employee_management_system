@@ -6,3 +6,4 @@ datetime
 re
 mysql.connector 
 os
+streamlit
