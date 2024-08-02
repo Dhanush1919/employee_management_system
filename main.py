@@ -6,7 +6,7 @@ from login_validation  import authentication
 def display_menu():
     print("1. ADD NEW EMPLOYEE DETAILS")
     print("2. TO VIEW EMPLOYEE DETAILS USING EMPLOYEE_ID")
-    print("3. UODATE EMPLOYEE INFORMATION (NAME CAN'T BE UPDATED)")
+    print("3. UPDATE EMPLOYEE INFORMATION (NAME CAN'T BE UPDATED)")
     print("4. DELETING EMPLOYEE DETAILS FROM TABLE USING EMPLOYEE ID")
     print("5. LISTING ALL EMPLOYEES IN ORGANIZATION")
     print("6. CALCULATING TOTAL SALARY AT MONTH LEVEL OF EACH EMPLOYEE ")
@@ -69,8 +69,6 @@ def main():
             s_id = input('Enter the ID of the Student : ')
             fields_to_update = {}
 
-            # Prompt the user for fields to update : 
-            print("Enter the fields you want to update and their new values, or leave blank to stop:")
             while True:
                 field = input("Enter the Field names that you wish to update or leave blank to stop: ").strip()
                 if not field:

@@ -97,7 +97,7 @@ def display_employee(Department,Position,Gender):
 
     cursor.execute("SELECT Employee_ID,Name,Age FROM employee_data WHERE Department = %s AND Position = %s AND Gender = %s",(Department,Position,Gender))
     employee_data = cursor.fetchall()
-
+    
     for i in employee_data:
         print(i)
 
