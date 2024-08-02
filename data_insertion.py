@@ -17,7 +17,9 @@ tech_stacks = [
     ["Cloud Computing", "AWS", "Azure"],
     ["Machine Learning", "Deep Learning"],
     ["Data Visualization", "Tableau", "Power BI"],
-    ["Software Development", "Agile Methodologies"]
+    ["Software Development", "Agile Methodologies"],
+    ["Blockchain", "Quantum Computing"],
+    ["Funding and Investment management", "Business Management"]
 ]
 
 # Function to generate random data
@@ -30,10 +32,10 @@ def generate_random_employee():
         "Address": fake.address(),
         "Mobile_number": "+91" + str(fake.random_number(digits=10, fix_len=True)),
         "Gender": random.choice(["Male", "Female"]),
-        "Education_details": fake.job(),
+        "Education_details": random.choice(["BE (ECE)", "BE (MECH)", "BE (CIVIL)", "BE (CSE)","MBA (FINANCE)", "MBA (HR)", "MBA (BUSINESS MANAGEMENT)", "BTECH (ARCH)", "Bsc (Comp Sci)" ]),
         "Doj": fake.date_between(start_date='-10y', end_date='today'),
         "Department": random.choice(["HR", "Engineering", "Marketing", "Sales", "Analytics", "Product Management", "Customer Support"]),
-        "Position": fake.job(),
+        "Position": random.choice(["Intern", "Trainee", "Associate", "Senior Associate", "Lead", "Staff", "Principal"]),
         "Employees_known_tech_stack": tech_stack,
         "Employee_salary": round(random.uniform(30000, 120000), 2)
     }
