@@ -16,37 +16,37 @@
 
 # Columns in Each Table
 # Employee_data 
-Employee_ID
-Name,
-Age,
-Address,
-Mobile_number,
-Gender,
-Education_details,
-Doj,
-Department,
-Position,
-Project_ID,
-Project_name,
-Project_assigned_date
-Manager_ID,
-Employees_known_tech_stack,
-Employee_salary
+- Employee_ID
+- Name
+- Age
+- Address
+- Mobile_number
+- Gender
+- Education_details
+- Doj
+- Department
+- Position
+- Project_ID
+- Project_name
+- Project_assigned_date
+- Manager_ID
+- Employees_known_tech_stack
+- Employee_salary
 
 # Manager_details
-Manager_ID
-Manager_name
-Employee_ID
-Assigned_date
+- Manager_ID
+- Manager_name
+- Employee_ID
+- Assigned_date
 
 # Project_assigned_details 
-Project_ID
-Project_name
-Project_description
-Project_start_date
-Project_end_date
-Employee_ID
-Project_assigned_date
+- Project_ID
+- Project_name
+- Project_description
+- Project_start_date
+- Project_end_date
+- Employee_ID
+- Project_assigned_date
 
 # Orders to Run File
 1. requirements.txt
