@@ -57,3 +57,7 @@
 6. employee.py
 7. main.py
 8. drop_tables.py
+
+# For UI
+- app.py (some issues are yet to be resolved)
+10. app.py (Issue Yet to be 
