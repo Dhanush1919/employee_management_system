@@ -60,4 +60,3 @@
 
 # For UI
 - app.py (some issues are yet to be resolved)
-10. app.py (Issue Yet to be 
